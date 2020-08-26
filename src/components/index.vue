@@ -27,7 +27,7 @@
                     <router-link :to="{name: 'edit', params: {id: post._id}}" class="btn btn-primary">Edit</router-link>
                 </td>
                 <td>
-                    <button class="btn btn-danger">Delete</button>
+                    <button class="btn btn-danger" @click.prevent="deletePost(post._id)">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -48,6 +48,15 @@
           this.axios.get(url).then(response => {
               this.posts = response.data;
           })
+      },
+
+      methods: {
+          deletePost(id) {
+              let url = 'http://localhost:4000/posts/delete/${id}'
+              this.axios.delete(url).then(() => {
+                  this.posts.splice(this.posts.indexOf(id), 1)
+              })
+          }
       }
   }
 </script>
